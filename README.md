@@ -54,3 +54,21 @@ kubectl apply --server-side -f ${CLUSTER_NAME}/capi/providers/bootstrap-talos
 kubectl apply --server-side -f ${CLUSTER_NAME}/capi/providers/controlplane-talos
 ```
 
+### Creating the management cluster
+
+You need to create a secret in Proxmox and add it to the namespace for the mgmt cluster, you will see this being related in `self-definitions/controlplane`
+
+```sh
+kubectl create secret generic \
+    -n cluster-${CLUSTER_NAME} proxmox-creds \
+    --from-literal='token=<token goes here>' \
+    --from-literal="secret=<secret goes here>" \
+    --from-literal="url=https://proxmox.foo.com:8006"
+```
+
+Create the cluster
+
+```sh
+kubectl apply -f ${CLUSTER_NAME}/self-definitions/base
+kubectl apply -f ${CLUSTER_NAME}/self-definitions/controlplane
+```
