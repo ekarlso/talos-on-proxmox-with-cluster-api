@@ -1,0 +1,22 @@
+kind: ProxmoxMachineTemplate
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+metadata:
+  name: capi-mgmt-p-01
+  namespace: cluster-capi-mgmt-p-01
+spec:
+  template:
+    spec:
+      disks:
+        bootVolume:
+          disk: scsi0
+          sizeGb: 60
+      sourceNode: hypervisor01
+      templateID: 7001
+      format: qcow2
+      full: true
+      network:
+        default:
+          bridge: vmbr4
+          model: virtio
+      checks:
+        skipCloudInitStatus: true

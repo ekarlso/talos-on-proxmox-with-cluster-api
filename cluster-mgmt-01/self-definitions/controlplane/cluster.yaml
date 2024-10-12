@@ -1,0 +1,29 @@
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+metadata:
+  name: capi-mgmt-p-01
+  namespace: cluster-capi-mgmt-p-01
+  labels:
+    ccm: external
+    csi: external
+    cni: external
+spec:
+  controlPlaneEndpoint:
+    host: 10.0.0.150
+    port: 6443
+  clusterNetwork:
+    pods:
+      cidrBlocks:
+        - 172.16.0.0/20
+    services:
+      cidrBlocks:
+        - 172.16.16.0/20
+    serviceDomain: cluster.local
+  controlPlaneRef:
+    apiVersion: controlplane.cluster.x-k8s.io/v1alpha3
+    kind: TalosControlPlane
+    name: capi-mgmt-p-01
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+    kind: ProxmoxCluster
+    name: capi-mgmt-p-01
